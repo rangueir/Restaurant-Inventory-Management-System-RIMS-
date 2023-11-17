@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Middle Page</title>
+</head>
+<body>
+    <h1>Welcome to the Inventory Management System</h1>
+    <p>Choose an action:</p>
+    <button onclick="viewInventory()">View Inventory</button>
+    <button onclick="viewInventoryByCategory()">View Inventory by category</button>
+    <button onclick="updateItemCount()">Update Item Count</button>
+    <button onclick="savePrintInventory()">Save/Print Inventory</button>
+
+    <script>
+         function viewInventory() {
+            // sheet name here
+            const sheetName = 'Sheet1'; 
+            window.location.href = `inventory.html?sheetName=${sheetName}`;
+        }
+        
+        function viewInventoryByCategory() {
+            
+            window.location.href = 'category_selection.html';
+
+        }
+
+        function updateItemCount() {
+            //window.location.href = 'update-count.html';
+        }
+
+        function savePrintInventory() {
+                //get to later
+        }
+    </script>
+</body>
+</html>

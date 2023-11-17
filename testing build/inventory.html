@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory View</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" integrity="sha512-r22gChDnGvBylk90+2e/ycr3RVrDi8DIOkIGNhJlKfuyQM4tIRAI062MaV8sfjQKYVGjOBaZBOA87z+IhZE9DA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <div class="table"></div>
+
+    <script>
+        let table = document.querySelector(".table");
+        let workbook;
+
+        async function loadExcelData() {
+            try {
+                const response = await fetch("./inventory1.xlsx");
+                const data = await response.arrayBuffer();
+                workbook = XLSX.read(data, { type: 'array' });
+                console.log('Workbook loaded:', workbook);
+            } catch (error) {
+                console.error('Error loading workbook:', error);
+            }
+        }
+
+        function displaySheet(sheetName) {
+            if (workbook && workbook.SheetNames.includes(sheetName)) {
+                const sheet = workbook.Sheets[sheetName];
+                const html = XLSX.utils.sheet_to_html(sheet);
+                table.innerHTML = `<h3>${sheetName}</h3>${html}`;
+            } else {
+                console.error(`Sheet '${sheetName}' not found in the workbook.`);
+            }
+        }
+
+        async function loadSpecificSheet() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sheetToShow = urlParams.get('sheetName');
+            if (sheetToShow) {
+                await loadExcelData();
+                displaySheet(sheetToShow);
+            } else {
+                console.error('No sheet name provided.');
+            }
+        }
+
+        // Load specific sheet on page load
+        loadSpecificSheet();
+    </script>
+</body>
+
+</html>
